@@ -1,5 +1,5 @@
 # FULLSTACK
-#Actividad-2-FulsstacK
+#Actividad-2-fullstack
 
 #NOMENCLATURA BRANCHES = ROL- QUE TRABAJO ESTAN REALIZANDO
 
