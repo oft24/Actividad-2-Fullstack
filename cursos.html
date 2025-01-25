@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hermcode</title>
+        <!-- Importación de iconos de Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+    <body id="cursosBody">
+        <!-- MENU -->
+        <!-- El header es una etiqueta para los encabezados que ayuda a un buen SEO en el navegador -->
+        <header class="container py-3 menu w-100 ">
+            <div class="menu-logo" onclick="redirect(`${window.location.origin}`)">
+                <img class="me-1 menu-logo__img" src="assets/logo.png" alt="Logo de hermcode">
+                <p class="text-uppercase quantico-font fw-bold fs-2">hermcode</p>
+            </div>
+
+            <!-- Etiqueta de navegacion entre las diferentes secciones de la página -->
+            <div>
+                <h3>
+                    Hola <span id="usernameDisplay" class="text-yellow"></span>
+                </h1>
+            </div>
+        </header>
+
+        <!-- MAIN SECTION -->
+        <section>
+            <p>
+                Somos una plataforma diseñada para programadores que quieran mejorar sus habilidades.
+                Donde te ofrecemos cursos especializados adaptados a todos los niveles de experiencia.
+                Tambien puedes formar parte de nuestro equipo ofreciendo tus propios cursos para los demas.
+            </p>
+        </section>
+
+    </body>
+</html>
