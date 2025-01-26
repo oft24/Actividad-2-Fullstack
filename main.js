@@ -29,7 +29,6 @@ class Curso {
     }
 
     // Setters
-
     setAutor(nuevoAutor) {
         this._autor = nuevoAutor;
     }
@@ -66,15 +65,18 @@ class GestorDeCursos {
     }
   
     agregarCurso(autor, nombreCurso) {
-        const id = this.cursos.length + 1
+        console.log(this.cursos[this.cursos.length - 1]);
+        const id = this.cursos.length
+            ? this.cursos[this.cursos.length - 1].id + 1
+            : this.cursos.length + 1
         const curso = new Curso(id, autor, nombreCurso)
         this.cursos.push(curso)
         this.setCursosToLocalStorage()
         this.renderListaCursos()
     }
   
-    eliminarCurso(index) {
-        this.cursos.slice(index, 1)
+    eliminarCurso(id) {
+        this.cursos = this.cursos.filter(curso => curso.id !== id)
         this.setCursosToLocalStorage()
         this.renderListaCursos()
     }
@@ -122,17 +124,17 @@ class GestorDeCursos {
                 </div>
 
                 <div class="w-100 d-flex justify-content-between mb-1">
-                    <div>
+                    <div class="w-100">
                         <p class="lista-cursos-card__label">Nombre del curso:</p>
-                        <h3 class="fs-3">${curso.nombreCurso}</p>
+                        <h3 class="fs-3 wrap-break-word ">${curso.nombreCurso}</p>
                     </div>
                 </div>
 
                 <div class="w-100 mb-3">
                     <p class="lista-cursos-card__label">Estado:</p>
                     <select 
-                        name="estado-${index}" 
-                        id="estado-${index}" 
+                        name="estado-${curso.id}" 
+                        id="estado-${curso.id}" 
                         class="btn btn-secondary bg-strong-blue w-100"
                     >
                             <option value="false" ${curso.terminado ? "" : "selected"}>En curso</option>
@@ -141,11 +143,11 @@ class GestorDeCursos {
                 </div>
 
                 <div class="w-100 d-flex">
-                    <button id="editar-${index}"  class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
+                    <button id="editar-${curso.id}"  class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-pencil me-1 fs-1"></i>
                         <span>Editar</span>
                     </button>
-                    <button id="eliminar-${index}"  class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                    <button id="eliminar-${curso.id}"  class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-x me-1 fs-1"></i>
                         <span>Eliminar</span>
                     </button>
@@ -154,20 +156,21 @@ class GestorDeCursos {
             
             listaCursos.appendChild(card);
 
-            document.getElementById(`estado-${index}`).addEventListener('change', () => {
-                this.onEstadoChange(index + 1)
+            console.log(curso);
+            document.getElementById(`estado-${curso.id}`).addEventListener('change', () => {
+                this.onEstadoChange(curso.id)
             })
-            document.getElementById(`editar-${index}`).addEventListener('click', () => {
+            document.getElementById(`editar-${curso.id}`).addEventListener('click', () => {
                 onClickEditarCurso({
-                    id: index + 1,
+                    id: curso.id,
                     autor: curso.autor,
                     nombreCurso: curso.nombreCurso
                 })
 
                 // onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription })
             })
-            document.getElementById(`eliminar-${index}`).addEventListener('click', () => {
-                this.eliminarCurso(index)
+            document.getElementById(`eliminar-${curso.id}`).addEventListener('click', () => {
+                this.eliminarCurso(curso.id)
             })
         });
     }
@@ -284,23 +287,23 @@ function onClickEditarCurso({ id, autor, nombreCurso}) {
 }
 
 function onClickAgregarCurso() {
-
     openModal('agregarCursoModal')
 
     document.getElementById('agregarCursoModalTitle').innerHTML = 'Agrega un curso'
+    document.getElementById('curso-id').value = null
     document.getElementById('owner-name').value = ''
     document.getElementById('curso-name').value = ''
     document.getElementById('agregarCursoSubmitBtn').value =  'Agregar curso'
 }
 
-function onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription }) {
-    openModal(idModal);
+// function onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription }) {
+//     openModal(idModal);
 
-    document.getElementById('agregarCursoModalTitle').innerHTML = title ?? 'Agrega un curso'
-    document.getElementById('owner-name').value = autor ?? ''
-    document.getElementById('curso-name').value = nombreCurso ?? ''
-    document.getElementById('agregarCursoSubmitBtn').value = btnDescription ?? 'Agregar curso'
-}
+//     document.getElementById('agregarCursoModalTitle').innerHTML = title ?? 'Agrega un curso'
+//     document.getElementById('owner-name').value = autor ?? ''
+//     document.getElementById('curso-name').value = nombreCurso ?? ''
+//     document.getElementById('agregarCursoSubmitBtn').value = btnDescription ?? 'Agregar curso'
+// }
 
 function redirect(url) {
     window.location.href = url
