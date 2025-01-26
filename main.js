@@ -30,11 +30,11 @@ class Curso {
 
     // Setters
 
-    set nombreCurso(nuevoNombre) {
-        this._nombreCurso = nuevoNombre;
+    setAutor(nuevoAutor) {
+        this._autor = nuevoAutor;
     }
 
-    set nombreCurso(nuevoNombre) {
+    setNombreCurso(nuevoNombre) {
         this._nombreCurso = nuevoNombre;
     }
 
@@ -61,20 +61,23 @@ class GestorDeCursos {
         this.renderListaCursos()
     }
 
-    actualizarCurso({id, autor, nombreCurso, terminado}) {
+    actualizarCurso({id, autor, nombreCurso}) {
         const curso = this.cursos.find(curso => curso.id === id)
-        this.cursos[id] = {
-            autor: autor ?? this.cursos[id].autor,
-            nombreCurso: nombreCurso ?? this.cursos[id].nombreCurso,
-            terminado: terminado ?? this.cursos[id].terminado
+
+        if (!curso) {
+            console.error(`Curso con ID ${id} no encontrado`);
+            return;
         }
+
+        if (autor) curso.setAutor(autor);
+        if (nombreCurso) curso.setNombreCurso(nombreCurso);
+        this.renderListaCursos()
     }
 
     onEstadoChange({id, event}) {
         const curso = this.cursos.find(curso => curso.id === id);
         if (curso) {
             curso.toggleTerminado();
-            this.renderListaCursos();
         } else {
             console.error(`Curso con ID ${id} no encontrado`);
         }
@@ -90,7 +93,7 @@ class GestorDeCursos {
             card.innerHTML = `
                     <div class="d-flex mb-1">
                         <p class="lista-cursos-card__label me-1">ID:</p>
-                        <P class="lista-cursos-card__id">#${index}</P>
+                        <P class="lista-cursos-card__id">#${curso.id}</P>
                     </div>
 
                     <div class="d-flex mb-1">
@@ -112,17 +115,17 @@ class GestorDeCursos {
                             id="estado-${index}" 
                             class="btn btn-secondary bg-strong-blue w-100"
                         >
-                            <option value="true">Terminado</option>
-                            <option value="false"}>En curso</option>
+                            <option value=${false}>En curso</option>
+                            <option value=${true}>Terminado</option>
                         </select>
                     </div>
 
                     <div class="w-100 d-flex">
-                        <button class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
+                        <button id="editar-${index}"  class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-pencil me-1 fs-1"></i>
                             <span>Editar</span>
                         </button>
-                        <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                        <button id="eliminar-${index}"  class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-x me-1 fs-1"></i>
                             <span>Eliminar</span>
                         </button>
@@ -137,9 +140,15 @@ class GestorDeCursos {
                     event: e
                 })
             })
-            // document.getElementById(`editar-${i}`).addEventListener('click', () => {
-            //     console.log('click en editar', i);
-            // })
+            document.getElementById(`editar-${index}`).addEventListener('click', () => {
+                onClickEditarCurso({
+                    id: index + 1,
+                    autor: curso.autor,
+                    nombreCurso: curso.nombreCurso
+                })
+
+                // onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription })
+            })
             // document.getElementById(`eliminar-${i}`).addEventListener('click', (i) => {
             //     this.eliminarTarea(i)
             //     console.log(this.tareas);
@@ -151,9 +160,6 @@ class GestorDeCursos {
     clearContainer(id) {
         document.getElementById(id).innerHTML = ''
     }
-
-
-
 }
 
 function setUserDisplayElement() {
@@ -222,12 +228,25 @@ function onAgregarCursoSubmit(event) {
     // Extrae todos los valores de los inputs del form
     const formValues = Object.values(event.target).reduce((obj,field) => { obj[field.name] = field.value; return obj }, {})
 
-    if(Object.values(formValues).some(el => !el)) return
+    if(Object.values({
+        autor: formValues["owner-name"],
+        nombreCurso: formValues["curso-name"],
+    }).some(el => !el)) return
+
     event.target.reset()
 
-    console.log(formValues);
-    gestorDeCursos.agregarCurso(formValues["owner-name"], formValues["curso-name"])
+    if(formValues['curso-id']) {
+        gestorDeCursos.actualizarCurso({
+            id: Number(formValues['curso-id']),
+            autor: formValues["owner-name"],
+            nombreCurso: formValues["curso-name"],
+        })
+    }
 
+    if(!formValues['curso-id']) {
+        gestorDeCursos.agregarCurso(formValues["owner-name"], formValues["curso-name"])
+    }
+    closeModal()
 }
 
 function onBtnLoginClick() {
@@ -237,6 +256,35 @@ function onBtnLoginClick() {
     }
 
     openModal('loginModal');
+}
+
+function onClickEditarCurso({ id, autor, nombreCurso}) {
+    openModal('agregarCursoModal');
+
+    document.getElementById('agregarCursoModalTitle').innerHTML = 'Actualiza el curso'
+    document.getElementById('curso-id').value = id
+    document.getElementById('owner-name').value = autor
+    document.getElementById('curso-name').value = nombreCurso
+    document.getElementById('agregarCursoSubmitBtn').value = 'Actualizar curso'
+}
+
+function onClickAgregarCurso() {
+
+    openModal('agregarCursoModal')
+
+    document.getElementById('agregarCursoModalTitle').innerHTML = 'Agrega un curso'
+    document.getElementById('owner-name').value = ''
+    document.getElementById('curso-name').value = ''
+    document.getElementById('agregarCursoSubmitBtn').value =  'Agregar curso'
+}
+
+function onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription }) {
+    openModal(idModal);
+
+    document.getElementById('agregarCursoModalTitle').innerHTML = title ?? 'Agrega un curso'
+    document.getElementById('owner-name').value = autor ?? ''
+    document.getElementById('curso-name').value = nombreCurso ?? ''
+    document.getElementById('agregarCursoSubmitBtn').value = btnDescription ?? 'Agregar curso'
 }
 
 function redirect(url) {

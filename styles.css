@@ -118,6 +118,10 @@ footer {
     display: block;
 }
 
+.d-none {
+    display: none;
+}
+
 .align-items-center {
     align-items: center;
 }

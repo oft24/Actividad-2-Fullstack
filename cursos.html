@@ -31,7 +31,7 @@
 
             <div class="mb-3 cursos-header">
                 <h2 class="fs-3 text-uppercase cursos-header-title">Lista de cursos</h2>
-                <button class="btn btn-primary cursos-header-agregar-curso" onclick="openModal('agregarCursoModal')">
+                <button class="btn btn-primary cursos-header-agregar-curso" onclick="onClickAgregarCurso()">
                     <i class="fa-solid fa-plus fs-2 me-1"></i>
                     <span>Agregar curso</span>
                 </button>
@@ -75,15 +75,17 @@
 
         <!-- MODALES -->
 
-        <div id="agregarCursoModal" class="jw-modal" onsubmit="onAgregarCursoSubmit(event)">
+        <div id="agregarCursoModal" class="jw-modal" >
             <div class="jw-modal-body">
 
                 <div class="d-flex justify-content-between align-items-center mb-3 w-100">
-                    <h4 class="text-uppercase">Agrega un curso</h3>
+                    <h4 id="agregarCursoModalTitle" class="text-uppercase">Agrega un curso</h3>
                     <i class="fa-solid fa-xmark fs-3" onclick="closeModal()"></i>
                 </div>
 
-                <form id="loginForm" onsubmit="preventDefault(event)">
+                <form id="agregarCursoForm" onsubmit="onAgregarCursoSubmit(event)">
+
+                    <input id="curso-id" class="d-none" type="number" name="curso-id" placeholder="ID del curso">
                     <div class="mb-1 w-100">
                         <label class="form-label" for="owner-name">Nombre:</label>
                         <input class="form-control fs-1 w-100" type="text" name="owner-name" id="owner-name" placeholder="Ingresa el nombre">
@@ -93,7 +95,7 @@
                         <input class="form-control fs-1 w-100" type="text" name="curso-name" id="curso-name" placeholder="Ingresa el nombre del curso">
                     </div>
 
-                    <input type="submit" class="btn btn-primary w-100 mt-2" value="Agregar curso">
+                    <input id="agregarCursoSubmitBtn" type="submit" class="btn btn-primary w-100 mt-2" value="Agregar curso">
                 </form>
             </div>
         </div>
