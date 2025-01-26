@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hermcode</title>
+        <!-- Importación de iconos de Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+    <body id="cursosBody">
+        <!-- MENU -->
+        <!-- El header es una etiqueta para los encabezados que ayuda a un buen SEO en el navegador -->
+        <header class="container py-3 menu w-100 ">
+            <div class="menu-logo" onclick="redirect(`${window.location.origin}`)">
+                <img class="me-1 menu-logo__img" src="assets/logo.png" alt="Logo de hermcode">
+                <p class="text-uppercase quantico-font fw-bold fs-2">hermcode</p>
+            </div>
+
+            <!-- Etiqueta de navegacion entre las diferentes secciones de la página -->
+            <div>
+                <h3>
+                    Hola <span id="usernameDisplay" class="text-yellow"></span>
+                </h1>
+            </div>
+        </header>
+
+        <!-- MAIN SECTION -->
+        <section class="container w-100 mb-2">
+            <div class="mb-3 cursos-header mb-3 ">
+                <h2 class="fs-3 text-uppercase cursos-header-title">Lista de cursos</h2>
+                <button class="btn btn-primary cursos-header-agregar-curso" onclick="onClickAgregarCurso()">
+                    <i class="fa-solid fa-plus fs-2 me-1"></i>
+                    <span>Agregar curso</span>
+                </button>
+            </div>
+            <div id="listaCursos" class="w-100 mb-3">
+        </section>
+
+        <!-- MODALES -->
+        <div id="agregarCursoModal" class="jw-modal" >
+            <div class="jw-modal-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+                    <h4 id="agregarCursoModalTitle" class="text-uppercase">Agrega un curso</h3>
+                    <i class="fa-solid fa-xmark fs-3" onclick="closeModal()"></i>
+                </div>
+
+                <form id="agregarCursoForm" onsubmit="onAgregarCursoSubmit(event)">
+
+                    <input id="curso-id" class="d-none" type="number" name="curso-id" placeholder="ID del curso">
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="owner-name">Nombre:</label>
+                        <input class="form-control fs-1 w-100" type="text" name="owner-name" id="owner-name" placeholder="Ingresa el nombre">
+                    </div>
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="curso-name">Nombre del curso:</label>
+                        <input class="form-control fs-1 w-100" type="text" name="curso-name" id="curso-name" placeholder="Ingresa el nombre del curso">
+                    </div>
+
+                    <input id="agregarCursoSubmitBtn" type="submit" class="btn btn-primary w-100 mt-2" value="Agregar curso">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

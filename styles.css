@@ -27,6 +27,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 62.5%;
+    width: 100%;
 }
 
 body {
@@ -117,6 +118,10 @@ footer {
     display: block;
 }
 
+.d-none {
+    display: none;
+}
+
 .align-items-center {
     align-items: center;
 }
@@ -157,6 +162,9 @@ footer {
 
 .w-100 {
     width: 100%;
+}
+.w-auto {
+    width: auto;
 }
 
 .w-50 {
@@ -202,6 +210,11 @@ footer {
     border: 2px solid var(--white);
 }
 
+.btn-danger {
+    background-color: var(--red);
+    border: 2px solid var(--red);
+}
+
 /* TEXT */
 
 .text-white {
@@ -222,6 +235,10 @@ footer {
 
 .text-center {
     text-align: center;
+}
+
+.wrap-break-word {
+    word-wrap: break-word;
 }
 
 .fs-1 {
@@ -359,6 +376,10 @@ footer {
     background-color: var(--blue);
 }
 
+.bg-strong-blue {
+    background-color: var(--strong-blue);
+}
+
 /* CONTAINER */
 
 .container {
@@ -485,4 +506,109 @@ footer {
     .copyright {
         margin-bottom: 0;
     }
+}
+
+.cursos-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cursos-header-title {
+    margin-bottom: 2rem;
+}
+
+.cursos-header-agregar-curso {
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    .cursos-header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .cursos-header-title {
+        margin-bottom: 0;
+    }
+
+    .cursos-header-agregar-curso {
+        width: auto;
+    }
+}
+
+#listaCursos {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.lista-cursos-card {
+    padding: 2rem;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--quantico-font);
+}
+
+.lista-cursos-card__label {
+    color: var(--yellow);
+    text-transform: uppercase;
+    font-family: var(--quantico-font);
+}
+
+.lista-cursos-card__label, .lista-cursos-card__id {
+    font-size: 1.2rem;
+}
+
+
+/* CLASES PARA LOS MODALES */
+
+.jw-modal {
+    /* Loa modales nacen ocultos por defualt */
+    display: none;
+
+    /* El contenedor del modal se posiciona en fixed en toda la pantalla */
+    position: fixed;
+    inset: 0;
+
+    /* El z-index debe ser más algo que cualquier otro elemento de la página */
+    z-index: 10000;
+    
+    background-color: rgba(0, 0, 0, .70);
+    padding: 40px;
+
+    /* Permite habilitar el scroll para modales que están al top del DOM */
+    overflow: auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.jw-modal.open {
+    display: flex;
+}
+
+.jw-modal-body {
+    padding: 20px;
+    background: var(--strong-blue);
+}
+
+body.jw-modal-open {
+    /* body overflow está oculto para ocultar la barra de scroll principal cuando el modal está abierto */
+    overflow: hidden;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+td, th {
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    margin-bottom: 20px;
+    /* padding: 8px; */
 }

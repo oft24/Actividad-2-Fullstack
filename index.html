@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +7,13 @@
         <!-- Importación de iconos de Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
         <!-- MENU -->
         <!-- El header es una etiqueta para los encabezados que ayuda a un buen SEO en el navegador -->
         <header class="container py-3 w-100 menu">
-            <div class="menu-logo">
+            <div class="menu-logo" onclick="redirect(`${window.location.origin}`)">
                 <img class="me-1 menu-logo__img" src="assets/logo.png" alt="Logo de hermcode">
                 <p class="text-uppercase quantico-font fw-bold fs-2">hermcode</p>
             </div>
@@ -21,7 +22,8 @@
             <nav class="menu-navbar">
                 <a class="text-yellow fw-bold menu-navbar__a" href="#cursos">CURSOS</a>
                 <a class="text-yellow fw-bold menu-navbar__a" href="#contacto">CONTÁCTANOS</a>
-                <button class="btn btn-secondary menu-navbar__btn">
+
+                <button id="btnLogin" class="btn btn-secondary menu-navbar__btn" onclick="onBtnLoginClick()">
                     Iniciar sesión
                 </button>
             </nav>
@@ -95,7 +97,7 @@
             <div class="contacto-form">
                 <h2 class="mb-2 fs-2 text-uppercase">Contacto</h2>
 
-                <form class="w-100">
+                <form class="w-100" onsubmit="preventDefault(event)">
                     <!-- Elemento que engloba el input y label -->
                     <div class="mb-1 w-100">
                         <label class="form-label" for="name">Nombre:</label>
@@ -112,7 +114,7 @@
                         <textarea id="textarea" name="textarea" class="form-control w-100" rows="3"></textarea>
                     </div>
         
-                    <button id="btn-submit" type="submit" class="btn btn-primary w-100 mt-2">Enviar</button>
+                    <button id="btn-submit" class="btn btn-primary w-100 mt-2">Enviar</button>
                 </form>
             </div>
 
@@ -139,6 +141,34 @@
             </div>
         </footer>
 
-        <script src="main.js"></script>
+
+        <!-- MODALES -->
+
+        <div id="loginModal" class="jw-modal">
+            <div class="jw-modal-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+                    <h4 class="text-uppercase">Inicia Sesión</h3>
+                    <i class="fa-solid fa-xmark fs-3" onclick="closeModal()"></i>
+                </div>
+
+                <form id="loginForm" onsubmit="onLoginSubmit(event)">
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="login-username">Usuario:</label>
+                        <input class="form-control fs-1 w-100" type="text" name="login-username" id="login-username" placeholder="Ingresa tu nombre">
+                    </div>
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="login-email">Correo electrónico:</label>
+                        <input class="form-control fs-1 w-100" type="email" name="login-email" id="login-email" placeholder="example@example.com">
+                    </div>
+                    <div class="mb-2 w-100">
+                        <label class="form-label" for="login-password">Contraseña:</label>
+                        <input class="form-control fs-1 w-100" type="password" name="login-password" id="login-password" placeholder="">
+                    </div>
+
+                    <input type="submit" class="btn btn-primary w-100 mt-2" value="Iniciar sesión">
+                </form>
+            </div>
+        </div>
     </body>
 </html>
