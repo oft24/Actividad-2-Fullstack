@@ -164,8 +164,6 @@ class GestorDeCursos {
                     autor: curso.autor,
                     nombreCurso: curso.nombreCurso
                 })
-
-                // onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription })
             })
             document.getElementById(`eliminar-${curso.id}`).addEventListener('click', () => {
                 this.eliminarCurso(curso.id)
@@ -293,15 +291,6 @@ function onClickAgregarCurso() {
     document.getElementById('curso-name').value = ''
     document.getElementById('agregarCursoSubmitBtn').value =  'Agregar curso'
 }
-
-// function onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription }) {
-//     openModal(idModal);
-
-//     document.getElementById('agregarCursoModalTitle').innerHTML = title ?? 'Agrega un curso'
-//     document.getElementById('owner-name').value = autor ?? ''
-//     document.getElementById('curso-name').value = nombreCurso ?? ''
-//     document.getElementById('agregarCursoSubmitBtn').value = btnDescription ?? 'Agregar curso'
-// }
 
 function redirect(url) {
     window.location.href = url
