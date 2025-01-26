@@ -4,11 +4,11 @@ let userDisplayElement
 let gestorDeCursos
 
 class Curso {
-    constructor(id, autor, nombreCurso) {
+    constructor(id, autor, nombreCurso, terminado) {
         this._id = id;
         this._autor = autor;
         this._nombreCurso = nombreCurso;
-        this._terminado = false;
+        this._terminado = terminado ?? false;
     }
 
     // Getters
@@ -45,19 +45,37 @@ class Curso {
 }
 
 class GestorDeCursos {
-    constructor() {
-        this.cursos = []
+    constructor(cursos) {
+        this.cursos = cursos.map(curso => (new Curso(
+            curso.id, 
+            curso.autor, 
+            curso.nombreCurso,
+            curso.terminado
+        ))) ?? [];
+        this.renderListaCursos()
+    }
+
+    setCursosToLocalStorage() {
+        const cursosLimpios = this.cursos.map(curso => ({
+            id: curso.id,
+            autor: curso.autor,
+            nombreCurso: curso.nombreCurso,
+            terminado: curso.terminado
+        }));
+        localStorage.setItem('cursos', JSON.stringify(cursosLimpios))
     }
   
     agregarCurso(autor, nombreCurso) {
         const id = this.cursos.length + 1
         const curso = new Curso(id, autor, nombreCurso)
         this.cursos.push(curso)
+        this.setCursosToLocalStorage()
         this.renderListaCursos()
     }
   
     eliminarCurso(index) {
         this.cursos.slice(index, 1)
+        this.setCursosToLocalStorage()
         this.renderListaCursos()
     }
 
@@ -71,17 +89,19 @@ class GestorDeCursos {
 
         if (autor) curso.setAutor(autor);
         if (nombreCurso) curso.setNombreCurso(nombreCurso);
+        this.setCursosToLocalStorage()
         this.renderListaCursos()
     }
 
-    onEstadoChange({id, event}) {
+    onEstadoChange(id) {
         const curso = this.cursos.find(curso => curso.id === id);
         if (curso) {
             curso.toggleTerminado();
+            this.setCursosToLocalStorage()
+            this.renderListaCursos()
         } else {
             console.error(`Curso con ID ${id} no encontrado`);
         }
-        console.log(this.cursos);
     }
   
     renderListaCursos() {
@@ -91,54 +111,51 @@ class GestorDeCursos {
             const card = document.createElement("div");
             card.classList.add('lista-cursos-card')
             card.innerHTML = `
-                    <div class="d-flex mb-1">
-                        <p class="lista-cursos-card__label me-1">ID:</p>
-                        <P class="lista-cursos-card__id">#${curso.id}</P>
-                    </div>
+                <div class="d-flex mb-1">
+                    <p class="lista-cursos-card__label quantico-font text-uppercase me-1">ID:</p>
+                    <P class="lista-cursos-card__id quantico-font text-uppercase">#${curso.id}</P>
+                </div>
 
-                    <div class="d-flex mb-1">
-                        <p class="lista-cursos-card__label me-1">Autor:</p>
-                        <P class="lista-cursos-card__id">${curso.autor}</P>
-                    </div>
+                <div class="d-flex mb-1">
+                    <p class="lista-cursos-card__label me-1 quantico-font text-uppercase">Autor:</p>
+                    <P class="lista-cursos-card__id quantico-font text-uppercase">${curso.autor}</P>
+                </div>
 
-                    <div class="w-100 d-flex justify-content-between mb-1">
-                        <div>
-                            <p class="lista-cursos-card__label">Nombre del curso:</p>
-                            <h3 class="fs-2">${curso.nombreCurso}</p>
-                        </div>
+                <div class="w-100 d-flex justify-content-between mb-1">
+                    <div>
+                        <p class="lista-cursos-card__label">Nombre del curso:</p>
+                        <h3 class="fs-3">${curso.nombreCurso}</p>
                     </div>
+                </div>
 
-                    <div class="w-100 mb-3">
-                        <p class="lista-cursos-card__label">Estado:</p>
-                        <select 
-                            name="estado-${index}" 
-                            id="estado-${index}" 
-                            class="btn btn-secondary bg-strong-blue w-100"
-                        >
-                            <option value=${false}>En curso</option>
-                            <option value=${true}>Terminado</option>
-                        </select>
-                    </div>
+                <div class="w-100 mb-3">
+                    <p class="lista-cursos-card__label">Estado:</p>
+                    <select 
+                        name="estado-${index}" 
+                        id="estado-${index}" 
+                        class="btn btn-secondary bg-strong-blue w-100"
+                    >
+                            <option value="false" ${curso.terminado ? "" : "selected"}>En curso</option>
+                            <option value="true" ${curso.terminado ? "selected" : ""}>Terminado</option>
+                    </select>
+                </div>
 
-                    <div class="w-100 d-flex">
-                        <button id="editar-${index}"  class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-pencil me-1 fs-1"></i>
-                            <span>Editar</span>
-                        </button>
-                        <button id="eliminar-${index}"  class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-x me-1 fs-1"></i>
-                            <span>Eliminar</span>
-                        </button>
-                    </div>
+                <div class="w-100 d-flex">
+                    <button id="editar-${index}"  class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-pencil me-1 fs-1"></i>
+                        <span>Editar</span>
+                    </button>
+                    <button id="eliminar-${index}"  class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-x me-1 fs-1"></i>
+                        <span>Eliminar</span>
+                    </button>
+                </div>
             `;
             
             listaCursos.appendChild(card);
 
-            document.getElementById(`estado-${index}`).addEventListener('change', (e) => {
-                this.onEstadoChange({
-                    id: index + 1,
-                    event: e
-                })
+            document.getElementById(`estado-${index}`).addEventListener('change', () => {
+                this.onEstadoChange(index + 1)
             })
             document.getElementById(`editar-${index}`).addEventListener('click', () => {
                 onClickEditarCurso({
@@ -149,11 +166,9 @@ class GestorDeCursos {
 
                 // onOpenAgregarCursoModal({ idModal, title, autor, nombreCurso, btnDescription })
             })
-            // document.getElementById(`eliminar-${i}`).addEventListener('click', (i) => {
-            //     this.eliminarTarea(i)
-            //     console.log(this.tareas);
-            //     console.log('click en eliminar', i);
-            // })
+            document.getElementById(`eliminar-${index}`).addEventListener('click', () => {
+                this.eliminarCurso(index)
+            })
         });
     }
   
@@ -176,7 +191,7 @@ function onCursosInit() {
         redirect(`${window.location.origin}`)
     }
     setUserDisplayElement();
-    gestorDeCursos = new GestorDeCursos()
+    gestorDeCursos = new GestorDeCursos(JSON.parse(localStorage.getItem('cursos')))
 }
 
 function setBtnLoginValue(htmlElement) {
