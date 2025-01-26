@@ -65,7 +65,6 @@ class GestorDeCursos {
     }
   
     agregarCurso(autor, nombreCurso) {
-        console.log(this.cursos[this.cursos.length - 1]);
         const id = this.cursos.length
             ? this.cursos[this.cursos.length - 1].id + 1
             : this.cursos.length + 1
@@ -156,7 +155,6 @@ class GestorDeCursos {
             
             listaCursos.appendChild(card);
 
-            console.log(curso);
             document.getElementById(`estado-${curso.id}`).addEventListener('change', () => {
                 this.onEstadoChange(curso.id)
             })
