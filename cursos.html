@@ -27,13 +27,76 @@
         </header>
 
         <!-- MAIN SECTION -->
-        <section>
-            <p>
-                Somos una plataforma diseñada para programadores que quieran mejorar sus habilidades.
-                Donde te ofrecemos cursos especializados adaptados a todos los niveles de experiencia.
-                Tambien puedes formar parte de nuestro equipo ofreciendo tus propios cursos para los demas.
-            </p>
+        <section class="container w-100 mb-2">
+
+            <div class="mb-3 cursos-header">
+                <h2 class="fs-3 text-uppercase cursos-header-title">Lista de cursos</h2>
+                <button class="btn btn-primary cursos-header-agregar-curso" onclick="openModal('agregarCursoModal')">
+                    <i class="fa-solid fa-plus fs-2 me-1"></i>
+                    <span>Agregar curso</span>
+                </button>
+            </div>
+            <div id="listaCursos" class="w-100">
+
+                <!-- <div class="lista-cursos-card">
+                    <div class="d-flex mb-1">
+                        <p class="lista-cursos-card__label me-1">ID:</p>
+                        <P class="lista-cursos-card__id">#1</P>
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-between mb-1">
+                        <div>
+                            <p class="lista-cursos-card__label">Nombre del curso:</p>
+                            <h3 class="fs-2">Introducción a HTML y CSS</p>
+                        </div>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <p class="lista-cursos-card__label">Estado:</p>
+                        <select name="" id="" class="btn btn-secondary bg-strong-blue w-100">
+                            <option value="terminado">Terminado</option>
+                            <option value="incompleto">En curso</option>
+                        </select>
+                    </div>
+
+                    <div class="w-100 d-flex">
+                        <button class="btn btn-secondary w-100 me-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-pencil me-1 fs-1"></i>
+                            <span>Editar</span>
+                        </button>
+                        <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-x me-1 fs-1"></i>
+                            <span>Eliminar</span>
+                        </button>
+                    </div>
+                </div> -->
+            </table>
         </section>
+
+        <!-- MODALES -->
+
+        <div id="agregarCursoModal" class="jw-modal" onsubmit="onAgregarCursoSubmit(event)">
+            <div class="jw-modal-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+                    <h4 class="text-uppercase">Agrega un curso</h3>
+                    <i class="fa-solid fa-xmark fs-3" onclick="closeModal()"></i>
+                </div>
+
+                <form id="loginForm" onsubmit="preventDefault(event)">
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="owner-name">Nombre:</label>
+                        <input class="form-control fs-1 w-100" type="text" name="owner-name" id="owner-name" placeholder="Ingresa el nombre">
+                    </div>
+                    <div class="mb-1 w-100">
+                        <label class="form-label" for="curso-name">Nombre del curso:</label>
+                        <input class="form-control fs-1 w-100" type="text" name="curso-name" id="curso-name" placeholder="Ingresa el nombre del curso">
+                    </div>
+
+                    <input type="submit" class="btn btn-primary w-100 mt-2" value="Agregar curso">
+                </form>
+            </div>
+        </div>
 
     </body>
 </html>
