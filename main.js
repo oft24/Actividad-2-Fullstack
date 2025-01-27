@@ -81,17 +81,19 @@ class GestorDeCursos {
     }
 
     actualizarCurso({id, autor, nombreCurso}) {
-        const curso = this.cursos.find(curso => curso.id === id)
-
+        const curso = this.cursos.find(curso => curso.id === id);
+    
         if (!curso) {
             console.error(`Curso con ID ${id} no encontrado`);
             return;
         }
-
+    
+       
         if (autor) curso.setAutor(autor);
         if (nombreCurso) curso.setNombreCurso(nombreCurso);
-        this.setCursosToLocalStorage()
-        this.renderListaCursos()
+        this.setCursosToLocalStorage();
+        this.renderListaCursos();
+        alert("Curso actualizado correctamente");
     }
 
     onEstadoChange(id) {
@@ -175,6 +177,27 @@ class GestorDeCursos {
         document.getElementById(id).innerHTML = ''
     }
 }
+function handleEditClick(event) {
+    event.preventDefault(); 
+
+    const id = document.getElementById('curso-id').value;
+    const autor = document.getElementById('owner-name').value;
+    const nombreCurso = document.getElementById('curso-name').value;
+
+    if (!autor || !nombreCurso) {
+        alert('Los campos "Autor" y "Nombre del curso" no pueden estar vacíos');
+        return;
+    }
+
+    gestorDeCursos.actualizarCurso({
+        id: Number(id),
+        autor,
+        nombreCurso
+    });
+
+    closeModal();
+}
+
 
 function setUserDisplayElement() {
     userDisplayElement = document.getElementById('usernameDisplay')
@@ -190,7 +213,8 @@ function onCursosInit() {
         redirect(`${window.location.origin}`)
     }
     setUserDisplayElement();
-    gestorDeCursos = new GestorDeCursos(JSON.parse(localStorage.getItem('cursos')))
+    const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
+    gestorDeCursos = new GestorDeCursos(cursos);
 }
 
 function setBtnLoginValue(htmlElement) {
@@ -220,7 +244,6 @@ function closeModal(event) {
 
 function onLoginSubmit(event) {
     event.preventDefault()
-    // Extrae todos los valores de los inputs del form
     const formValues = Object.values(event.target).reduce((obj,field) => { obj[field.name] = field.value; return obj }, {})
 
     if(Object.values(formValues).some(el => !el)) return
@@ -239,7 +262,6 @@ function onLoginSubmit(event) {
 
 function onAgregarCursoSubmit(event) {
     event.preventDefault();
-    // Extrae todos los valores de los inputs del form
     const formValues = Object.values(event.target).reduce((obj,field) => { obj[field.name] = field.value; return obj }, {})
 
     if(Object.values({
@@ -267,6 +289,7 @@ function onBtnLoginClick() {
     if(sessionData) {
         redirect(`${window.location.origin}/cursos.html`)
         return
+        
     }
 
     openModal('loginModal');
@@ -280,6 +303,7 @@ function onClickEditarCurso({ id, autor, nombreCurso}) {
     document.getElementById('owner-name').value = autor
     document.getElementById('curso-name').value = nombreCurso
     document.getElementById('agregarCursoSubmitBtn').value = 'Actualizar curso'
+    document.getElementById('agregarCursoSubmitBtn').addEventListener('click', handleEditClick);
 }
 
 function onClickAgregarCurso() {
@@ -317,3 +341,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
