@@ -185,7 +185,7 @@ function handleEditClick(event) {
     const nombreCurso = document.getElementById('curso-name').value;
 
     if (!autor || !nombreCurso) {
-        alert('Los campos "Autor" y "Nombre del curso" no pueden estar vacíos');
+        alert('Los campos Nombre y nombre curso no pueden estar vacíos');
         return;
     }
 
